@@ -132,6 +132,20 @@ class MockS3Mixin(object):
         super(MockS3Mixin, self).tearDown()
 
 
+class MockS3BotoStorageMixin(object):
+    """
+    TestCase mixin that mocks the S3BotoStorage save method.
+    """
+    def setUp(self):
+        super(MockS3BotoStorageMixin, self).setUp()
+        self.patcher = patch('storages.backends.s3boto.S3BotoStorage.save')
+        self.patcher.start()
+
+    def tearDown(self):
+        self.patcher.start().stop()
+        super(MockS3BotoStorageMixin, self).tearDown()
+
+
 class reprwrapper(object):
     """
     Wrapper class for functions that need a normalized string representation.
