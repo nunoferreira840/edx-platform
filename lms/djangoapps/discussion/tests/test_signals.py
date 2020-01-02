@@ -28,6 +28,7 @@ class SendMessageHandlerTestCase(TestCase):
     @mock.patch('lms.djangoapps.discussion.signals.handlers.send_message')
     def test_comment_created_signal_sends_message(self, mock_send_message, mock_get_current_site):
         site_config = SiteConfigurationFactory.create(site=self.site)
+        site_config.site_values[ENABLE_FORUM_NOTIFICATIONS_FOR_SITE_KEY] = True
         site_config.values[ENABLE_FORUM_NOTIFICATIONS_FOR_SITE_KEY] = True
         site_config.save()
         mock_get_current_site.return_value = self.site
@@ -56,6 +57,7 @@ class SendMessageHandlerTestCase(TestCase):
             self, mock_send_message, mock_get_current_site
     ):
         site_config = SiteConfigurationFactory.create(site=self.site)
+        site_config.site_values[ENABLE_FORUM_NOTIFICATIONS_FOR_SITE_KEY] = False
         site_config.values[ENABLE_FORUM_NOTIFICATIONS_FOR_SITE_KEY] = False
         site_config.save()
         mock_get_current_site.return_value = self.site
